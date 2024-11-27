@@ -15,14 +15,14 @@ final class SetAsFavoriteTests: XCTestCase {
         let (sut, client, _) = makeFavoriteSUT(result: result)
         
         XCTAssertEqual(client.requests, [])
-        XCTAssertEqual(sut.phone, "")
-        XCTAssertEqual(sut.note, "")
-        XCTAssertEqual(sut.id, "")
-        XCTAssertEqual(sut.firstName, "")
-        XCTAssertEqual(sut.linkedinURL, "")
+        XCTAssertEqual(sut.phone, "071122334455")
+        XCTAssertEqual(sut.note, "note to detail")
+        XCTAssertEqual(sut.id, "1")
+        XCTAssertEqual(sut.firstName, "John")
+        XCTAssertEqual(sut.linkedinURL, "fakeLinkedInURL.com")
         XCTAssertEqual(sut.isFavorite, false)
-        XCTAssertEqual(sut.email, "")
-        XCTAssertEqual(sut.lastName, "")
+        XCTAssertEqual(sut.email, "johndoe@test.com")
+        XCTAssertEqual(sut.lastName, "Doe")
     }
     
     
@@ -38,7 +38,7 @@ final class SetAsFavoriteTests: XCTestCase {
             XCTFail("Ecpected failure due to token retrieval failed")
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
-            XCTAssertEqual(sut.firstName, "")
+            XCTAssertEqual(sut.firstName, "John")
         }
         
     }
@@ -55,7 +55,7 @@ final class SetAsFavoriteTests: XCTestCase {
             XCTFail("Ecpected failure due to failed Request")
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
-            XCTAssertEqual(sut.firstName, "")
+            XCTAssertEqual(sut.firstName, "John")
         }
         
     }

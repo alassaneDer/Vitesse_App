@@ -9,7 +9,27 @@ import Foundation
 import Combine
 
 final class ListViewModel: ObservableObject {
-    @Published var list: [CandidateItem] = []
+    @Published var list: [CandidateItem] = [
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "1", firstName: "Marcel", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "marceldiop@test.com", lastName: "Diop"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "2", firstName: "Antoine", linkedinURL: "FakeLinkedInURL.com", isFavorite: false, email: "antoinegomez@test.com", lastName: "Gomez"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "3", firstName: "Vladimir", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "vladimirzarko@test.com", lastName: "Zarko"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "4", firstName: "Astel", linkedinURL: "FakeLinkedInURL.com", isFavorite: false, email: "astelrenault@test.com", lastName: "Renault"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "5", firstName: "Alice", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "alicesmith@test.com", lastName: "Smith"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "6", firstName: "Charlotte", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "charlottebrown@test.com", lastName: "Brown"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "7", firstName: "Bob", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "bobjohnson@test.com", lastName: "Johnson"),
+        
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "8", firstName: "Ousmane", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "ousmanesamb@test.com", lastName: "Samb")
+        
+    ]
+    
+    @Published var loadListMessage: String = ""
+    @Published var deleteCandidateMessage: String = ""
     @Published var isSelectingFavorits: Bool = false
     @Published var selectedCandidatIDs: [CandidateItem] = []
     
@@ -20,28 +40,34 @@ final class ListViewModel: ObservableObject {
         !searchText.isEmpty
     }
     
-    private var deletor: Deletor
-    private var loader: ListLoader
+    private var candidateLoader: CandidatesLoader
     private var tokenStore: TokenStore
     
-    init(loader: ListLoader = ListLoader(), deletor: Deletor = Deletor(), tokenStore: TokenStore = KeychainStore()) {
-        self.loader = loader
-        self.deletor = deletor
+    
+    init(candidateLoader: CandidatesLoader = CandidatesLoader(), tokenStore: TokenStore = KeychainStore()) {
+        self.candidateLoader = candidateLoader
         self.tokenStore = tokenStore
         addCandidates()
     }
     
+    
     // MARK: Liste des candidats
+    @MainActor
     func loadList() async {
         do {
             let data = try tokenStore.retrieve()
             let token = String(data: data, encoding: .utf8)!
             
             let request = ListEndPoint.request(token: token)
-            let item = try await loader.loadList(from: request)
-                        
-            await updateListOnMainThread(item: item)
+            let item = try await candidateLoader.loadList(from: request)
+            
+            list = item
+            
+            if list.isEmpty {
+                loadListMessage = "Candidates list empty!"
+            }
         } catch {
+            loadListMessage = "Sorry can't load Candidates list, please refresh!"
             print(error)
         }
     }
@@ -55,21 +81,17 @@ final class ListViewModel: ObservableObject {
     }
     
     
-    @MainActor
-    func updateListOnMainThread(item: [CandidateItem]) {
-        list = item
-    }
     
     // MARK: - Implement the logic for filtering
-     func applyFilter() -> [CandidateItem] {
-         if issearching {
-             return searchResult
-         } else if isSelectingFavorits {
-             return list.filter({$0.isFavorite})
-         } else {
-             return list
-         }
-     }
+    func applyFilter() -> [CandidateItem] {
+        if issearching {
+            return searchResult
+        } else if isSelectingFavorits {
+            return list.filter({$0.isFavorite})
+        } else {
+            return list
+        }
+    }
     
     // MARK: pour la multisélection
     func selectCandidates(by candidateID: CandidateItem) {
@@ -106,7 +128,7 @@ final class ListViewModel: ObservableObject {
     
     // MARK: perform deletion
     @MainActor
-    func delete(selectedCandidatIDs: [CandidateItem], completion: @escaping () -> Void) async {
+    func deleteCandidate(selectedCandidatIDs: [CandidateItem], completion: @escaping () -> Void) async {
         do {
             let data = try tokenStore.retrieve()
             let token = String(data: data, encoding: .utf8)!
@@ -114,23 +136,24 @@ final class ListViewModel: ObservableObject {
             
             for candidat in selectedCandidatIDs {
                 let request = DeleteEndPoint.request(token: token, candidatID: candidat.id)
-                try await deletor.delete(from: request)
+                try await candidateLoader.delete(from: request)
             }
             
             completion()
-            
+            deleteCandidateMessage = "Candidate successfully deleted!"
         } catch {
+            deleteCandidateMessage = "Can't perform deletion now, please try later!"
             print(error)
         }
     }
     
     @MainActor
-    func deleteAndReloadList(selectedCandidatIDs: [CandidateItem]) async {
-        await delete(selectedCandidatIDs: selectedCandidatIDs) {
+    func deleteCandidateAndReloadList(selectedCandidatIDs: [CandidateItem]) async {
+        await deleteCandidate(selectedCandidatIDs: selectedCandidatIDs) {
             self.selectedCandidatIDs = []
         }
         await loadList()
-
+        
     }
     
     

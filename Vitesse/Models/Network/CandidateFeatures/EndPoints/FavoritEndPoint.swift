@@ -9,13 +9,12 @@ import Foundation
 
 enum FavoritEndPoint {
     
-    static func request(isAdmin: Bool, token: String, candidateID: String) throws -> URLRequest {
+    static func request(token: String, candidateID: String) throws -> URLRequest {
         let baseURL = URL(string: "http://127.0.0.1:8080/candidate/\(candidateID)/favorite")!
         var request = URLRequest(url: baseURL)
-        request.httpMethod = "PUT"
+        request.httpMethod = "POST"
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-      
         
         return request
     }

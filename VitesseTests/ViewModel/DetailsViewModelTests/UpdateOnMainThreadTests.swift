@@ -15,14 +15,14 @@ final class UpdateDetailsOnMainThreadTests: XCTestCase {
         let (sut, client, _) = makeDetailsSUT(result: result)
         
         XCTAssertEqual(client.requests, [])
-        XCTAssertEqual(sut.phone, "")
-        XCTAssertEqual(sut.note, "")
-        XCTAssertEqual(sut.id, "")
-        XCTAssertEqual(sut.firstName, "")
-        XCTAssertEqual(sut.linkedinURL, "")
+        XCTAssertEqual(sut.phone, "071122334455")
+        XCTAssertEqual(sut.note, "note to detail")
+        XCTAssertEqual(sut.id, "1")
+        XCTAssertEqual(sut.firstName, "John")
+        XCTAssertEqual(sut.linkedinURL, "fakeLinkedInURL.com")
         XCTAssertEqual(sut.isFavorite, false)
-        XCTAssertEqual(sut.email, "")
-        XCTAssertEqual(sut.lastName, "")
+        XCTAssertEqual(sut.email, "johndoe@test.com")
+        XCTAssertEqual(sut.lastName, "Doe")
     }
 
     func test_update_doesNotTriggerUpdatedDetailsOnRetrieveTokenFailed() async throws {
@@ -37,8 +37,8 @@ final class UpdateDetailsOnMainThreadTests: XCTestCase {
 
         // Vérifications : aucune mise à jour des détails ne doit être effectuée
         XCTAssertEqual(store.receivedMessages, [.retrieve])
-        XCTAssertEqual(sut.firstName, "")
-        XCTAssertEqual(sut.phone, "")
+        XCTAssertEqual(sut.firstName, "John")
+        XCTAssertEqual(sut.phone, "071122334455")
     }
 
     func test_update_doesNotTriggerUpdatedDetailsOnRequestFailed() async throws {
@@ -53,8 +53,8 @@ final class UpdateDetailsOnMainThreadTests: XCTestCase {
 
         // Vérifications : aucune mise à jour des détails ne doit être effectuée
         XCTAssertEqual(store.receivedMessages, [.retrieve])
-        XCTAssertEqual(sut.firstName, "")
-        XCTAssertEqual(sut.phone, "")
+        XCTAssertEqual(sut.firstName, "John")
+        XCTAssertEqual(sut.phone, "071122334455")
     }
 
     func test_updateDetailsSuccess() async throws {
@@ -85,9 +85,9 @@ final class UpdateDetailsOnMainThreadTests: XCTestCase {
     // MARK: - Helpers
     private func makeDetailsSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (detailsSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         let client = HTTPClientStub(result: result)
-        let detailsLoader = DetailLoader(client: client) // Assurez-vous que vous utilisez un bon "Loader"
+        let detailsLoader = DetailLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = DetailsViewModel(detailsLoader: detailsLoader, tokenStore: tokenStore) // Injecter le loader
+        let sut = DetailsViewModel(detailsLoader: detailsLoader, tokenStore: tokenStore)
 
         return (sut, client, tokenStore)
     }

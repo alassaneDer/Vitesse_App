@@ -10,25 +10,21 @@ import Combine
 
 final class DetailsViewModel: ObservableObject {
     
-    @Published var phone: String = ""
-    @Published var note: String = ""
-    @Published var id: String = ""
-    @Published var firstName: String = ""
-    @Published var linkedinURL: String = ""
+    @Published var phone: String = "071122334455"
+    @Published var note: String = "note to detail"
+    @Published var id: String = "1"
+    @Published var firstName: String = "John"
+    @Published var linkedinURL: String = "fakeLinkedInURL.com"
     @Published var isFavorite: Bool = false
-    @Published var email: String = ""
-    @Published var lastName: String = ""
-        
-    private var detailsLoader: DetailLoader
-    private var updator: Updator
-    private var asFavoritSetor: AsFavoriteSetor
+    @Published var email: String = "johndoe@test.com"
+    @Published var lastName: String = "Doe"
+    
+    private var candidatesLoader: CandidatesLoader
     private var tokenStore: TokenStore
     
-    init(updator: Updator = Updator(), detailsLoader: DetailLoader = DetailLoader(), asFavoritSetor: AsFavoriteSetor = AsFavoriteSetor(), tokenStore: TokenStore = KeychainStore()) {
-        self.detailsLoader = detailsLoader
+    init(candidatesLoader: CandidatesLoader = CandidatesLoader(), tokenStore: TokenStore = KeychainStore()) {
+        self.candidatesLoader = candidatesLoader
         self.tokenStore = tokenStore
-        self.updator = updator
-        self.asFavoritSetor = asFavoritSetor
     }
     
     // MARK: load candidate details
@@ -36,11 +32,12 @@ final class DetailsViewModel: ObservableObject {
         let data = try tokenStore.retrieve()
         let token = String(data: data, encoding: .utf8)!
         let request = DetailEndPoint.request(token: token, candidatID: candidatID)
-        let details = try await detailsLoader.loadDetails(from: request)
+        print(request)
+        let details = try await candidatesLoader.loadDetails(from: request)
         
         return details
     }
-
+    
     @MainActor
     func updateDetailsOnMainThread(for candidatID: String)  async {
         do {
@@ -78,7 +75,7 @@ final class DetailsViewModel: ObservableObject {
                 phone: phone
             )
             
-             let updatedCandidate = try await updator.update(from: request)
+            let updatedCandidate = try await candidatesLoader.update(from: request)
             
             return updatedCandidate
         } catch {
@@ -93,16 +90,15 @@ final class DetailsViewModel: ObservableObject {
             let data = try tokenStore.retrieve()
             let token = String(data: data, encoding: .utf8)!
             
-            let request = try FavoritEndPoint.request(isAdmin: false, token: token, candidateID: candidatID)
+            let request = try FavoritEndPoint.request(token: token, candidateID: candidatID)
             
-            let asFavoritSetted = try await asFavoritSetor.FavoriteSetor(from: request)
+            let asFavoritSetted = try await candidatesLoader.markCandidateAsFavorite(from: request)
             
             return asFavoritSetted
         } catch {
-            print("l'id du candidat à mettre en favorit est \(candidatID)")
             throw (error)
         }
-       
+        
     }
     
 }

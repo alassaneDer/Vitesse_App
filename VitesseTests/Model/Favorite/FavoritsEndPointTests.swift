@@ -14,10 +14,10 @@ final class FavoritsEndPointTests: XCTestCase {
         let token = "a token"
         let candidateID = "a candidateID"
         
-        let sut = FavoritEndPoint.request(token: token, candidateID: candidateID)
+        let sut = try FavoritEndPoint.request(token: token, candidateID: candidateID)
         
         XCTAssertEqual(sut.url, URL(string: "http://127.0.0.1:8080/candidate/\(candidateID)/favorite")!)
-        XCTAssertEqual(sut.httpMethod, "PUT")
+        XCTAssertEqual(sut.httpMethod, "POST")
         XCTAssertEqual(sut.allHTTPHeaderFields, ["Authorization": "Bearer \(token)"])
         
         XCTAssertNil(sut.httpBody)

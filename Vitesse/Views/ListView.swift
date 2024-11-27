@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ListView: View {
     
-    @ObservedObject var viewmodel: ListViewModel
+    @ObservedObject var viewModel: ListViewModel
     
     @State var isEditing: Bool = false
     @State var isDeleting: Bool = false
     
-    
+    @State private var showConfirmation: Bool = false
     
     var body: some View {
         
@@ -26,7 +26,7 @@ struct ListView: View {
                     HStack {
                         Image(systemName: "magnifyingglass.circle.fill")
                             .font(.title)
-                        TextField("Search candidates", text: $viewmodel.searchText)
+                        TextField("Search candidates", text: $viewModel.searchText)
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 10)
@@ -35,9 +35,9 @@ struct ListView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .fill(Color.gray.opacity(0.2))
                     }
-                    if viewmodel.issearching {
+                    if viewModel.issearching {
                         Button {
-                            viewmodel.searchText = ""
+                            viewModel.searchText = ""
                         } label: {
                             Image(systemName: "x.circle.fill")
                                 .font(.title)
@@ -51,15 +51,17 @@ struct ListView: View {
             .padding(.horizontal, 15)
             .padding(.bottom, 10)
             
-            
+            if !viewModel.loadListMessage.isEmpty {
+                Text("\(viewModel.loadListMessage)")
+            }
             // MARK: liste des candidats
             List {
-                ForEach(viewmodel.applyFilter(), id: \.id) { candidat in
+                ForEach(viewModel.applyFilter(), id: \.id) { candidat in
                     HStack {
                         if !isEditing {
                             NavigationLink(value: candidat) {
                                 HStack {
-                                    Text("\(viewmodel.getFirstLetter(item: candidat))")
+                                    Text("\(viewModel.getFirstLetter(item: candidat))")
                                         .padding(10)
                                         .font(.headline)
                                         .foregroundStyle(Color.white)
@@ -73,16 +75,14 @@ struct ListView: View {
                                 }
                                 .foregroundStyle(Color.black)
                             }
-                            // Supprime le fond gris après sélection
-//                            .listRowBackground(Color.clear)
                         } else {
                             Button {
                                 // selection de candidats
-                                viewmodel.selectCandidates(by: candidat)
+                                viewModel.selectCandidates(by: candidat)
                             } label: {
                                 HStack {
-                                    Image(systemName: viewmodel.selectedCandidatIDs.contains(candidat) ? "checkmark.circle.fill" : "circle")
-                                    Text("\(viewmodel.getFirstLetter(item: candidat))")
+                                    Image(systemName: viewModel.selectedCandidatIDs.contains(candidat) ? "checkmark.circle.fill" : "circle")
+                                    Text("\(viewModel.getFirstLetter(item: candidat))")
                                         .padding(10)
                                         .font(.headline)
                                         .foregroundStyle(Color.white)
@@ -101,7 +101,7 @@ struct ListView: View {
                 }
             }
             .refreshable(action: {  // rafraichi la liste en glissant vers le bas
-                await viewmodel.loadList()
+                await viewModel.loadList()
             })
             .navigationTitle("Candidates")
             .navigationBarTitleDisplayMode(.inline)
@@ -119,10 +119,10 @@ struct ListView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             // filter by favorit
-                            viewmodel.isSelectingFavorits.toggle()
+                            viewModel.isSelectingFavorits.toggle()
                         } label: {
                             Image(systemName: "star.fill")
-                                .foregroundStyle(viewmodel.isSelectingFavorits ? Color.black : Color(hex: "#BDBDBD").opacity(0.2))
+                                .foregroundStyle(viewModel.isSelectingFavorits ? Color.black : Color(hex: "#BDBDBD").opacity(0.2))
                         }
                         
                     }
@@ -130,7 +130,7 @@ struct ListView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
                             isEditing = false
-                            viewmodel.selectedCandidatIDs = []
+                            viewModel.selectedCandidatIDs = []
                         } label: {
                             Text("Cancel")
                                 .foregroundStyle(Color.black)
@@ -139,12 +139,7 @@ struct ListView: View {
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            // perform deletion
-                            isDeleting = true
-                            Task {
-                                await viewmodel.deleteAndReloadList(selectedCandidatIDs: viewmodel.selectedCandidatIDs)
-                                isDeleting = false
-                            }
+                            showConfirmation = true
                         } label: {
                             Text("Delete")
                                 .foregroundStyle(Color.black)
@@ -154,10 +149,22 @@ struct ListView: View {
                 }
             })
             .task {
-                await viewmodel.loadList()
+                await viewModel.loadList()
             }
+            .alert("Are you sure?", isPresented: $showConfirmation, actions: {
+                Button("Cancel", role: .cancel) {}
+                Button("Delete", role: .destructive) {
+                    Task {
+                        isDeleting = true
+                        await viewModel.deleteCandidateAndReloadList(selectedCandidatIDs: viewModel.selectedCandidatIDs)
+                        isDeleting = false
+                    }
+                }
+            }, message: {
+                Text("This action is irreversible and the item will be permanently deleted.")
+            })
             .navigationDestination(for: CandidateItem.self) { candidat in
-                DetailsView(viewmodel: DetailsViewModel(), candidatID: candidat.id)
+                CandidateDetailsView(viewModel: DetailsViewModel(), candidatID: candidat.id)
             }
             
         }
@@ -165,15 +172,18 @@ struct ListView: View {
 }
 
 #Preview {
-    ListView(viewmodel: ListViewModel())
+    ListView(viewModel: ListViewModel())
 }
-
 
 /*
  
- if isEditing {
-     Spacer()
-     Text("\(viewmodel.selectedCandidatIDs.count) selected")
+ .overlay {
+     if !viewModel.deleteCandidateMessage.isEmpty {
+         ToastView(errorMessage: viewModel.deleteCandidateMessage)
+             .onAppear {
+                 viewModel.showTemporaryToast()
+             }
+     }
  }
  
  */

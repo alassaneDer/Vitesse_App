@@ -16,10 +16,9 @@ struct VitesseApp: App {
         WindowGroup {
             Group {
                 if viewmodel.isLogged {
-                    ListView(viewmodel: ListViewModel())
-
+                    ListView(viewModel: ListViewModel())
                 } else {
-                    AuthView(viewModel: viewmodel.authViewModel)
+                    AuthenticationView(viewModel: viewmodel.authViewModel)
                         .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity),
                                                 removal: .move(edge: .top).combined(with: .opacity)))
                 }

@@ -10,20 +10,19 @@ import XCTest
 
 final class LoadDetailsTest: XCTestCase {
     
-    
     func test_init_doesNotTriggerLoadDetailsUponCreation() {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
         let (sut, client, _) = makeLoadDetailsSUT(result: result)
         
         XCTAssertEqual(client.requests, [])
-        XCTAssertEqual(sut.phone, "")
-        XCTAssertEqual(sut.note, "")
-        XCTAssertEqual(sut.id, "")
-        XCTAssertEqual(sut.firstName, "")
-        XCTAssertEqual(sut.linkedinURL, "")
+        XCTAssertEqual(sut.phone, "071122334455")
+        XCTAssertEqual(sut.note, "note to detail")
+        XCTAssertEqual(sut.id, "1")
+        XCTAssertEqual(sut.firstName, "John")
+        XCTAssertEqual(sut.linkedinURL, "fakeLinkedInURL.com")
         XCTAssertEqual(sut.isFavorite, false)
-        XCTAssertEqual(sut.email, "")
-        XCTAssertEqual(sut.lastName, "")
+        XCTAssertEqual(sut.email, "johndoe@test.com")
+        XCTAssertEqual(sut.lastName, "Doe")
     }
     
     

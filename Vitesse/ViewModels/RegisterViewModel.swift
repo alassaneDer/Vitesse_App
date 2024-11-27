@@ -11,6 +11,7 @@ import Combine
 final class RegisterViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var confirmPassword: String = ""
     @Published var firstName: String = ""
     @Published var lastName: String = ""
     
@@ -27,14 +28,23 @@ final class RegisterViewModel: ObservableObject {
     
     @MainActor
     func register() async {
-        do {
-            let request = try RegisterEndPoint.request(email: email, password: password, firstName: firstName, lastName: lastName)
-            try await registor.register(from: request)
-            
-            registerMessage = "Welcome \(firstName)"
-        } catch {
-            registerMessage = "Sorry! Can't Register."  // a voir si c bien ici sa place
-            print(error)
+        
+        if email.isEmpty || password.isEmpty || confirmPassword.isEmpty || firstName.isEmpty || lastName.isEmpty {
+            registerMessage = "Please fill out all fields."
+        } else if password != confirmPassword {
+            registerMessage = "Please make sure the passwords match!"
+        } else if !email.isEmail() {
+            registerMessage = "Please enter a valid email!"
+        } else {
+            do {
+                let request = try RegisterEndPoint.request(email: email, password: password, firstName: firstName, lastName: lastName)
+                try await registor.register(from: request)
+                
+                registerMessage = "Registration succesful!"
+            } catch {
+                registerMessage = "Sorry! Registration failed. Please try again."
+                print("Register failed : \(error)")
+            }
         }
     }
     
@@ -44,6 +54,5 @@ final class RegisterViewModel: ObservableObject {
             self.registerMessage = ""
         }
     }
-    
     
 }

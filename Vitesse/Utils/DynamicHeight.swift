@@ -11,7 +11,7 @@ import Foundation
 func dynamicHeight(for text: String) -> CGFloat {
     let baseHeight: CGFloat = 100
     let maxHeight: CGFloat = 200
-    let minHeight: CGFloat = baseHeight
+    let minHeight: CGFloat = 100
     
     // Calculer le nombre de lignes de texte en fonction de la longueur du texte
     let characterLimit: Int = 70 // Ajustez cette limite en fonction de la largeur du TextEditor
