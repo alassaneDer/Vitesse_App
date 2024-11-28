@@ -30,6 +30,7 @@ final class LoadListTest: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
         XCTAssertEqual(sut.list.count, 8)
         XCTAssertEqual(sut.list[0].firstName, "Marcel")
+        XCTAssertEqual(sut.loadListMessage, "Sorry can't load Candidates list, please refresh!")
     }
     
     func test_loadList_doesNotTriggerLoadListOnRetrieveRequestFailed() async {
@@ -42,6 +43,7 @@ final class LoadListTest: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
         XCTAssertEqual(sut.list.count, 8)
         XCTAssertEqual(sut.list[0].firstName, "Marcel")
+        XCTAssertEqual(sut.loadListMessage, "Sorry can't load Candidates list, please refresh!")
     }
     
     func test_loadList_triggerLoadListOnSucceedRequestAndRetrieveTokenCompleted() async {
@@ -64,9 +66,9 @@ final class LoadListTest: XCTestCase {
     private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: ListViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         
         let client = HTTPClientStub(result: result)
-        let loader = ListLoader(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = ListViewModel(loader: loader, tokenStore: tokenStore)
+        let sut = ListViewModel(candidateLoader: candidatesLoader, tokenStore: tokenStore)
         
         return (sut, client, tokenStore)
     }

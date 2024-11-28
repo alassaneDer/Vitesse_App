@@ -62,9 +62,9 @@ final class UpdatorTests: XCTestCase {
 }
 
 // MARK: helpers
-private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: Updator, client: HTTPClientStub) {
+private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: CandidatesLoader, client: HTTPClientStub) {
     let client = HTTPClientStub(result: result)
-    let sut = Updator(client: client)
+    let sut = CandidatesLoader(client: client)
     
     return (sut, client)
 }

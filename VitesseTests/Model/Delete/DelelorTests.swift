@@ -36,7 +36,7 @@ final class DelelorTests: XCTestCase {
             try await sut.delete(from: anyURLRequest())
             XCTFail("Expected failure")
         } catch {
-            XCTAssertEqual(error as! Deletor.Error, .invalidResponseStatusCode)
+            XCTAssertEqual(error as! CandidatesLoader.Error, .invalidResponseStatusCode)
         }
     }
     
@@ -56,9 +56,9 @@ final class DelelorTests: XCTestCase {
     
     
     //MARK: helpers
-    private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: Deletor, client: HTTPClientStub) {
+    private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: CandidatesLoader, client: HTTPClientStub) {
         let client = HTTPClientStub(result: result)
-        let sut = Deletor(client: client)
+        let sut = CandidatesLoader(client: client)
         
         return (sut, client)
     }

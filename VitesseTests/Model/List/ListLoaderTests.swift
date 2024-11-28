@@ -78,9 +78,9 @@ final class ListLoaderTests: XCTestCase {
     
     
     // MARK: - Helpers
-    private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: ListLoader, clien: HTTPClientStub) {
+    private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: CandidatesLoader, clien: HTTPClientStub) {
         let client = HTTPClientStub(result: result)
-        let sut = ListLoader(client: client)
+        let sut = CandidatesLoader(client: client)
 
         return (sut, client)
     }

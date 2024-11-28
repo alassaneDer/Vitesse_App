@@ -65,33 +65,11 @@ final class DeleteTest: XCTestCase {
     private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: ListViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         
         let client = HTTPClientStub(result: result)
-        let deletor = ListLoader(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = ListViewModel(loader: deletor, tokenStore: tokenStore)
+        let sut = ListViewModel(candidateLoader: candidatesLoader, tokenStore: tokenStore)
         
         return (sut, client, tokenStore)
     }
 
 }
-
-/**
- //    func test_delete_triggerLoadListOnSucceedRequestAndRetrieveTokenCompleted() async {
- //        let (candidateItem, json) = makeListItem()
- //        let data = makeListItemJson(json)
- //        let result: Result<(Data, HTTPURLResponse), Error> = .success( (data, HTTPURLResponse()) )
- //        let (sut, _, store) = makeSUT(result: result)
- //
- //        var callBackCallCount = 0
- //        var selectedCandidatIDs = [sut.list[0], sut.list[1]]
- //
- //        store.completeRetrieval(with: anyData())
- //        let candidate = await sut.delete(selectedCandidatIDs: selectedCandidatIDs) {
- //            callBackCallCount += 1
- //        }
- //
- //        XCTAssertEqual(store.receivedMessages, [.retrieve])
- //        XCTAssertEqual(sut.list.count, 0)
- //        XCTAssertEqual(callBackCallCount, 1)
- //
- //    }
- */

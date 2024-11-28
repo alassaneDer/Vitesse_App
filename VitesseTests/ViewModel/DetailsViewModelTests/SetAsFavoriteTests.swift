@@ -88,9 +88,9 @@ final class SetAsFavoriteTests: XCTestCase {
     //MARK: HELPERS
     private func makeFavoriteSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (favoriteSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         let client = HTTPClientStub(result: result)
-        let asFavoriteSetor = AsFavoriteSetor(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = DetailsViewModel(asFavoritSetor: asFavoriteSetor, tokenStore: tokenStore)
+        let sut = DetailsViewModel(candidatesLoader: candidatesLoader, tokenStore: tokenStore)
         
         return(sut, client, tokenStore)
     }

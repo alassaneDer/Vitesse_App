@@ -36,7 +36,6 @@ struct CandidateDetailsView: View {
                                     .foregroundStyle(viewModel.isFavorite ? .yellow : Color(hex: "#BDBDBD"))
                             })
                             .accessibilityLabel(viewModel.isFavorite ? "Remove from favorites" : "Add to favorites")
-                            //                            .accessibilityHint("Tap to toggle favorite status")
                         }
                         .padding()
                         
@@ -66,6 +65,14 @@ struct CandidateDetailsView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
+                    .overlay(content: {
+                        if !viewModel.message.isEmpty {
+                            ToastView(errorMessage: viewModel.message)
+                                .onAppear {
+                                    viewModel.showTemporaryToast()
+                                }
+                        }
+                    })
                     .padding(.horizontal, 40)
                 }
             } else {

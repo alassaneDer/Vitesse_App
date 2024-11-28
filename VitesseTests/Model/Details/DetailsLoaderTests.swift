@@ -58,9 +58,9 @@ final class DetailsLoaderTests: XCTestCase {
 }
 
 // MARK: helpers
-private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: DetailLoader, client: HTTPClientStub) {
+private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: CandidatesLoader, client: HTTPClientStub) {
     let client = HTTPClientStub(result: result)
-    let sut = DetailLoader(client: client)
+    let sut = CandidatesLoader(client: client)
     
     return (sut, client)
 }

@@ -85,9 +85,9 @@ final class UpdateDetailsOnMainThreadTests: XCTestCase {
     // MARK: - Helpers
     private func makeDetailsSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (detailsSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         let client = HTTPClientStub(result: result)
-        let detailsLoader = DetailLoader(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = DetailsViewModel(detailsLoader: detailsLoader, tokenStore: tokenStore)
+        let sut = DetailsViewModel(candidatesLoader: candidatesLoader, tokenStore: tokenStore)
 
         return (sut, client, tokenStore)
     }

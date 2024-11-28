@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		ED26106B2CA0D3A5005D0DE1 /* LoadDetailsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED26106A2CA0D3A5005D0DE1 /* LoadDetailsTest.swift */; };
-		ED2948B62C9F037600391D89 /* DetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2948B52C9F037600391D89 /* DetailsViewModelTests.swift */; };
 		ED2B9F542C93519700E83EC0 /* SharedTestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F532C93519700E83EC0 /* SharedTestsHelpers.swift */; };
 		ED2B9F582C937A7900E83EC0 /* HTTPClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F572C937A7900E83EC0 /* HTTPClientStub.swift */; };
 		ED2B9F5A2C939FD400E83EC0 /* TokenStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F592C939FD400E83EC0 /* TokenStoreSpy.swift */; };
@@ -83,7 +82,6 @@
 		EDC2A5232CF71117009C07CD /* CandidatesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC2A5222CF71117009C07CD /* CandidatesLoader.swift */; };
 		EDE21A7C2C98947C001352E9 /* AuthViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE21A7B2C98947C001352E9 /* AuthViewModelTests.swift */; };
 		EDE21A7E2C98AB27001352E9 /* RegisterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE21A7D2C98AB27001352E9 /* RegisterViewModelTests.swift */; };
-		EDE21A802C98C8CE001352E9 /* ListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE21A7F2C98C8CE001352E9 /* ListViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +96,6 @@
 
 /* Begin PBXFileReference section */
 		ED26106A2CA0D3A5005D0DE1 /* LoadDetailsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadDetailsTest.swift; sourceTree = "<group>"; };
-		ED2948B52C9F037600391D89 /* DetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModelTests.swift; sourceTree = "<group>"; };
 		ED2B9F532C93519700E83EC0 /* SharedTestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestsHelpers.swift; sourceTree = "<group>"; };
 		ED2B9F572C937A7900E83EC0 /* HTTPClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientStub.swift; sourceTree = "<group>"; };
 		ED2B9F592C939FD400E83EC0 /* TokenStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStoreSpy.swift; sourceTree = "<group>"; };
@@ -175,7 +172,6 @@
 		EDC2A5222CF71117009C07CD /* CandidatesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatesLoader.swift; sourceTree = "<group>"; };
 		EDE21A7B2C98947C001352E9 /* AuthViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModelTests.swift; sourceTree = "<group>"; };
 		EDE21A7D2C98AB27001352E9 /* RegisterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModelTests.swift; sourceTree = "<group>"; };
-		EDE21A7F2C98C8CE001352E9 /* ListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,7 +288,6 @@
 		ED5AD2662CA0F8E200232114 /* DetailsViewModelTests */ = {
 			isa = PBXGroup;
 			children = (
-				ED2948B52C9F037600391D89 /* DetailsViewModelTests.swift */,
 				ED26106A2CA0D3A5005D0DE1 /* LoadDetailsTest.swift */,
 				ED5AD2682CA0F9E100232114 /* UpdateTests.swift */,
 				ED9C0D842CA1BF8A000DA622 /* SetAsFavoriteTests.swift */,
@@ -304,7 +299,6 @@
 		ED5AD2672CA0F8FD00232114 /* ListViewModelTests */ = {
 			isa = PBXGroup;
 			children = (
-				EDE21A7F2C98C8CE001352E9 /* ListViewModelTests.swift */,
 				EDA5FB9E2CF3BCAE005CB3B2 /* LoadListTest.swift */,
 				EDA5FBA02CF3CA18005CB3B2 /* DeleteTest.swift */,
 			);
@@ -690,7 +684,6 @@
 				ED6801872C961E3100707C53 /* FavoritsEndPointTests.swift in Sources */,
 				ED64EA782C97154300D567F9 /* DetailsLoaderTests.swift in Sources */,
 				ED6801912C96304A00707C53 /* UpdateMapperTests.swift in Sources */,
-				ED2948B62C9F037600391D89 /* DetailsViewModelTests.swift in Sources */,
 				ED6801932C96309800707C53 /* FavoriteMapperTests.swift in Sources */,
 				ED68018B2C962FA900707C53 /* ListMapperTests.swift in Sources */,
 				ED2B9F582C937A7900E83EC0 /* HTTPClientStub.swift in Sources */,
@@ -701,7 +694,6 @@
 				ED26106B2CA0D3A5005D0DE1 /* LoadDetailsTest.swift in Sources */,
 				ED6801842C96194F00707C53 /* UpdateEndPointTests.swift in Sources */,
 				ED68018F2C96301A00707C53 /* DelelorTests.swift in Sources */,
-				EDE21A802C98C8CE001352E9 /* ListViewModelTests.swift in Sources */,
 				EDE21A7C2C98947C001352E9 /* AuthViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -89,9 +89,9 @@ final class UpdateTests: XCTestCase {
     //MARK: HELPERS
     private func makeUpdateSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (updateSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         let client = HTTPClientStub(result: result)
-        let updator = Updator(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let sut = DetailsViewModel(updator: updator, tokenStore: tokenStore)
+        let sut = DetailsViewModel(candidatesLoader: candidatesLoader, tokenStore: tokenStore)
         
         return(sut, client, tokenStore)
     }

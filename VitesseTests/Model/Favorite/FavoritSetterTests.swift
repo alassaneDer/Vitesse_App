@@ -25,7 +25,7 @@ final class FavoritSetterTests: XCTestCase {
         let (sut, _) = makeSUT(result: result)
         
         do {
-            _ = try await sut.FavoriteSetor(from: anyURLRequest())
+            _ = try await sut.markCandidateAsFavorite(from: anyURLRequest())
             XCTFail("Expected failure")
         } catch {
             XCTAssertEqual(error as NSError, expectedError)
@@ -38,7 +38,7 @@ final class FavoritSetterTests: XCTestCase {
         let (sut, _) = makeSUT(result: result)
         
         do {
-            _ = try await sut.FavoriteSetor(from: anyURLRequest())
+            _ = try await sut.markCandidateAsFavorite(from: anyURLRequest())
             XCTFail("Expected failure")
         } catch {
             XCTAssertEqual(error as! FavoritMapper.Error, .invalideDecodingResponse)
@@ -52,7 +52,7 @@ final class FavoritSetterTests: XCTestCase {
         let (sut, _) = makeSUT(result: result)
         
         do {
-            let asFavoriteSeted = try await sut.FavoriteSetor(from: anyURLRequest())
+            let asFavoriteSeted = try await sut.markCandidateAsFavorite(from: anyURLRequest())
             XCTAssertEqual(asFavoriteSeted, item.model)
         } catch  {
             XCTFail("Expected succes")
@@ -62,9 +62,9 @@ final class FavoritSetterTests: XCTestCase {
 }
 
 // MARK: helpers
-private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: AsFavoriteSetor, client: HTTPClientStub) {
+private func makeSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (sut: CandidatesLoader, client: HTTPClientStub) {
     let client = HTTPClientStub(result: result)
-    let sut = AsFavoriteSetor(client: client)
+    let sut = CandidatesLoader(client: client)
     
     return (sut, client)
 }

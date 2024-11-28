@@ -30,7 +30,7 @@ final class AuthViewModel: ObservableObject {
     @MainActor
     func login() async {
         guard !email.isEmpty && !password.isEmpty else {
-            return authenticationMessage = "Login failed: please enter valid email and password"
+            return authenticationMessage = "Login failed: please enter valid email and password."
         }
         do {
             let request = try AuthEndPoint.request(with: email, and: password)

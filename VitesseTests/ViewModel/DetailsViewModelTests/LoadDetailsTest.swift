@@ -87,9 +87,9 @@ final class LoadDetailsTest: XCTestCase {
     
     private func makeLoadDetailsSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (detailSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {
         let client = HTTPClientStub(result: result)
-        let loaderDetails = DetailLoader(client: client)
+        let candidatesLoader = CandidatesLoader(client: client)
         let tokenStore = TokenStoreSpy()
-        let detailsSut = DetailsViewModel(detailsLoader: loaderDetails, tokenStore: tokenStore)
+        let detailsSut = DetailsViewModel(candidatesLoader: candidatesLoader, tokenStore: tokenStore)
         
         return(detailsSut, client, tokenStore)
     }

@@ -17,6 +17,21 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(client.requests, [])
     }
     
+    func test_login_doesNotTriggerLoginSucceedOnInvaliidFields() async {
+        let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
+        var callbackCallCount = 0
+        let (sut, _, _) = makeSUT(result: result, callback: {
+            callbackCallCount += 1
+        })
+        
+        sut.email = ""
+        sut.password = ""
+        
+        await sut.login()
+        
+        XCTAssertEqual(callbackCallCount, 0)
+        XCTAssertEqual(sut.authenticationMessage, "Login failed: please enter valid email and password.")
+    }
     
     func test_login_doesNotTriggerLoginSucceedOnRquestFailed() async {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
@@ -28,7 +43,10 @@ final class AuthViewModelTests: XCTestCase {
         await sut.login()
         
         XCTAssertEqual(callbackCallCount, 0)
+        XCTAssertEqual(sut.authenticationMessage, "Login failed: invalid email or password.")
     }
+    
+    
     
     func test_login_doesNotTriggerLoginSucceedOnDeleteTokenStoreFailed() async {
         let item = makeAuthItem()
@@ -45,6 +63,7 @@ final class AuthViewModelTests: XCTestCase {
         
         XCTAssertEqual(store.receivedMessages, [.delete])
         XCTAssertEqual(callbackCallCount, 0)
+        XCTAssertEqual(sut.authenticationMessage, "Login failed: invalid email or password.")
     }
     
     func test_login_doesNotTriggerLoginSucceedOnInsertionTokenStoreFailed() async {
@@ -63,6 +82,7 @@ final class AuthViewModelTests: XCTestCase {
             
         XCTAssertEqual(store.receivedMessages, [.delete, .insert])
             XCTAssertEqual(callbackCallCount, 0)
+        XCTAssertEqual(sut.authenticationMessage, "Login failed: invalid email or password.")
     }
     
     func test_login_triggersLoginOnSucceedAuthRequestAndStorageTokenCompleted() async {

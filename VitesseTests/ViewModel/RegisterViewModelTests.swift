@@ -23,6 +23,20 @@ final class RegisterViewModelTests: XCTestCase {
         XCTAssertEqual(sut.registerMessage, "")
     }
     
+    func test_register_doesNotTriggerRegisterSucceedOnEmptyFields() async {
+        let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
+        let (sut, _) = makeSUT(result: result)
+        
+        sut.email = ""
+        sut.password = "a password"
+        sut.confirmPassword = "a different password"
+        sut.firstName = ""
+        sut.lastName = "a lastName"
+        await sut.register()
+        
+        XCTAssertEqual(sut.registerMessage, "Please fill out all fields.")
+    }
+    
     func test_register_doesNotTriggerRegisterSucceedIfPasswordNotSame() async {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
         let (sut, _) = makeSUT(result: result)
@@ -35,6 +49,20 @@ final class RegisterViewModelTests: XCTestCase {
         await sut.register()
         
         XCTAssertEqual(sut.registerMessage, "Please make sure the passwords match!")
+    }
+    
+    func test_register_doesNotTriggerRegisterSucceedOnInvalidEmail() async {
+        let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
+        let (sut, _) = makeSUT(result: result)
+        
+        sut.email = "invalidEmail"
+        sut.password = "a password"
+        sut.confirmPassword = "a password"
+        sut.firstName = "a firstName"
+        sut.lastName = "a lastName"
+        await sut.register()
+        
+        XCTAssertEqual(sut.registerMessage, "Please enter a valid email!")
     }
     
     func test_register_doesNotTriggerRegisterSucceedOnRequestFailed() async {
