@@ -40,6 +40,7 @@ final class UpdateTests: XCTestCase {
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
             XCTAssertEqual(sut.firstName, "John")
+            XCTAssertEqual(sut.message, "Sorry can't update this candidate now, please try later.")
         }
         
     }
@@ -57,6 +58,7 @@ final class UpdateTests: XCTestCase {
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
             XCTAssertEqual(sut.firstName, "John")
+            XCTAssertEqual(sut.message, "Sorry can't update this candidate now, please try later.")
         }
         
     }
@@ -82,9 +84,9 @@ final class UpdateTests: XCTestCase {
         XCTAssertEqual(updatedCandidate.firstName, candidateItem.firstName)
         XCTAssertEqual(updatedCandidate.email, candidateItem.email)
         XCTAssertEqual(updatedCandidate.linkedinURL, candidateItem.linkedinURL)
+        XCTAssertEqual(sut.message, "Candidate details successfully updated")
     }
-    
-    
+
     
     //MARK: HELPERS
     private func makeUpdateSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (updateSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {

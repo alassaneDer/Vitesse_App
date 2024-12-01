@@ -39,6 +39,7 @@ final class SetAsFavoriteTests: XCTestCase {
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
             XCTAssertEqual(sut.firstName, "John")
+            XCTAssertEqual(sut.message, "Sorry can't make this candidate favorite, please try later.")
         }
         
     }
@@ -56,6 +57,7 @@ final class SetAsFavoriteTests: XCTestCase {
         } catch {
             XCTAssertEqual(store.receivedMessages, [.retrieve])
             XCTAssertEqual(sut.firstName, "John")
+            XCTAssertEqual(sut.message, "Sorry can't make this candidate favorite, please try later.")
         }
         
     }

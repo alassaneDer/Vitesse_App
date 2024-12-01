@@ -18,7 +18,7 @@ final class ListViewModel: ObservableObject {
         
         CandidateItem(phone: "0711223344", note: "note for the candidate", id: "4", firstName: "Astel", linkedinURL: "FakeLinkedInURL.com", isFavorite: false, email: "astelrenault@test.com", lastName: "Renault"),
         
-        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "5", firstName: "Alice", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "alicesmith@test.com", lastName: "Smith"),
+        CandidateItem(phone: "0711223344", note: "note for the candidate", id: "5", firstName: "", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "alicesmith@test.com", lastName: "Smith"),
         
         CandidateItem(phone: "0711223344", note: "note for the candidate", id: "6", firstName: "Charlotte", linkedinURL: "FakeLinkedInURL.com", isFavorite: true, email: "charlottebrown@test.com", lastName: "Brown"),
         
@@ -111,7 +111,7 @@ final class ListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    private func searchCandidates(searchText: String) {
+    func searchCandidates(searchText: String) {
         guard !searchText.isEmpty else {
             searchResult = []
             return
@@ -153,8 +153,8 @@ final class ListViewModel: ObservableObject {
             self.selectedCandidatIDs = []
         }
         await loadList()
-        
     }
     
+    // func show Temporary toast
     
 }

@@ -14,6 +14,7 @@
 		ED2B9F622C93A78100E83EC0 /* AuthEndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F612C93A78100E83EC0 /* AuthEndPointTests.swift */; };
 		ED2B9F642C93A79E00E83EC0 /* AuthMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F632C93A79E00E83EC0 /* AuthMapperTests.swift */; };
 		ED2B9F662C93A7B200E83EC0 /* AuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2B9F652C93A7B200E83EC0 /* AuthenticatorTests.swift */; };
+		ED2EBAF82CFCCC9C00EBA697 /* ManageCandidateListTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2EBAF72CFCCC9C00EBA697 /* ManageCandidateListTest.swift */; };
 		ED3F66FF2C95025C00382ABE /* RegisterEndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3F66FE2C95025C00382ABE /* RegisterEndPointTests.swift */; };
 		ED3F67012C95040F00382ABE /* ListEndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3F67002C95040F00382ABE /* ListEndPointTests.swift */; };
 		ED3F67032C95097000382ABE /* DetailsEndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3F67022C95097000382ABE /* DetailsEndPointTests.swift */; };
@@ -102,6 +103,7 @@
 		ED2B9F612C93A78100E83EC0 /* AuthEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEndPointTests.swift; sourceTree = "<group>"; };
 		ED2B9F632C93A79E00E83EC0 /* AuthMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthMapperTests.swift; sourceTree = "<group>"; };
 		ED2B9F652C93A7B200E83EC0 /* AuthenticatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorTests.swift; sourceTree = "<group>"; };
+		ED2EBAF72CFCCC9C00EBA697 /* ManageCandidateListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCandidateListTest.swift; sourceTree = "<group>"; };
 		ED3F66FE2C95025C00382ABE /* RegisterEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterEndPointTests.swift; sourceTree = "<group>"; };
 		ED3F67002C95040F00382ABE /* ListEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEndPointTests.swift; sourceTree = "<group>"; };
 		ED3F67022C95097000382ABE /* DetailsEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsEndPointTests.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 			children = (
 				EDA5FB9E2CF3BCAE005CB3B2 /* LoadListTest.swift */,
 				EDA5FBA02CF3CA18005CB3B2 /* DeleteTest.swift */,
+				ED2EBAF72CFCCC9C00EBA697 /* ManageCandidateListTest.swift */,
 			);
 			path = ListViewModelTests;
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				ED9C0D872CA1C444000DA622 /* UpdateOnMainThreadTests.swift in Sources */,
 				ED6801892C962E7700707C53 /* registerMapperTests.swift in Sources */,
 				ED3F66FF2C95025C00382ABE /* RegisterEndPointTests.swift in Sources */,
+				ED2EBAF82CFCCC9C00EBA697 /* ManageCandidateListTest.swift in Sources */,
 				ED26106B2CA0D3A5005D0DE1 /* LoadDetailsTest.swift in Sources */,
 				ED6801842C96194F00707C53 /* UpdateEndPointTests.swift in Sources */,
 				ED68018F2C96301A00707C53 /* DelelorTests.swift in Sources */,
