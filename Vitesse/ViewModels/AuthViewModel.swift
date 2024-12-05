@@ -12,9 +12,7 @@ final class AuthViewModel: ObservableObject {
     @Published var email: String = "admin@vitesse.com"
     @Published var password: String = "test123"
     @Published var authenticationMessage: String = ""
-    
-    // message d'authentification réussi
-    
+        
     private let authenticator: Authenticator
     private let tokenStore: TokenStore
     let onLoginSuccess: (() -> ())
@@ -30,7 +28,8 @@ final class AuthViewModel: ObservableObject {
     @MainActor
     func login() async {
         guard !email.isEmpty && !password.isEmpty else {
-            return authenticationMessage = "Login failed: please enter valid email and password."
+            authenticationMessage = "Login failed: please enter valid email and password."
+            return
         }
         do {
             let request = try AuthEndPoint.request(with: email, and: password)
@@ -43,7 +42,6 @@ final class AuthViewModel: ObservableObject {
             }
         } catch {
             authenticationMessage = "Login failed: invalid email or password."
-            print(error.localizedDescription)
         }
     }
     

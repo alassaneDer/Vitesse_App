@@ -30,7 +30,6 @@ enum AuthMapper {
         guard let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw Error.invalidDecodingResponse
         }
-        print("is connected user admin? : \(root.authItem.isAdmin)")    // s'assurer que le candidat est bien admin
         return root.authItem
     }
 }

@@ -71,7 +71,7 @@ struct ListView: View {
                                     Text(candidat.lastName)
                                     Spacer()
                                     Image(systemName: "star.fill")
-                                        .foregroundStyle(candidat.isFavorite ? Color.black : Color(hex: "#BDBDBD").opacity(0.4))
+                                        .foregroundStyle(candidat.isFavorite ? Color.yellow : Color(hex: "#BDBDBD").opacity(0.4))
                                 }
                                 .foregroundStyle(Color.black)
                             }
@@ -148,9 +148,6 @@ struct ListView: View {
                     }
                 }
             })
-            .task {
-                await viewModel.loadList()
-            }
             .alert("Are you sure?", isPresented: $showConfirmation, actions: {
                 Button("Cancel", role: .cancel) {}
                 Button("Delete", role: .destructive) {
@@ -166,7 +163,9 @@ struct ListView: View {
             .navigationDestination(for: CandidateItem.self) { candidat in
                 CandidateDetailsView(viewModel: DetailsViewModel(), candidatID: candidat.id)
             }
-            
+            .task {
+                await viewModel.loadList()
+            }
         }
     }
 }
@@ -174,16 +173,3 @@ struct ListView: View {
 #Preview {
     ListView(viewModel: ListViewModel())
 }
-
-/*
- 
- .overlay {
-     if !viewModel.deleteCandidateMessage.isEmpty {
-         ToastView(errorMessage: viewModel.deleteCandidateMessage)
-             .onAppear {
-                 viewModel.showTemporaryToast()
-             }
-     }
- }
- 
- */

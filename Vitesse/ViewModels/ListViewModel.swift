@@ -143,7 +143,6 @@ final class ListViewModel: ObservableObject {
             deleteCandidateMessage = "Candidate successfully deleted!"
         } catch {
             deleteCandidateMessage = "Can't perform deletion now, please try later!"
-            print(error)
         }
     }
     
@@ -154,7 +153,5 @@ final class ListViewModel: ObservableObject {
         }
         await loadList()
     }
-    
-    // func show Temporary toast
-    
+        
 }

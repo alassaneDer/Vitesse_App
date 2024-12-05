@@ -48,7 +48,7 @@ final class ManageCandidateListTest: XCTestCase {
     // MARK: selectCandidates
     func test_selectCandidates() {
         
-        var candidate = sut.list[0]
+        let candidate = sut.list[0]
         sut.selectCandidates(by: candidate)
         XCTAssertTrue(sut.selectedCandidatIDs.contains(candidate))
         
@@ -58,8 +58,6 @@ final class ManageCandidateListTest: XCTestCase {
 
     // MARK: selectCandidates
     func test_searchCandidatesWithValidSearch() {
-        var sut: ListViewModel = ListViewModel()
-        
         sut.searchCandidates(searchText: "Marcel")
         XCTAssertEqual(sut.searchResult.count, 1)
         XCTAssertEqual(sut.searchResult.first?.firstName, "Marcel")
@@ -89,9 +87,7 @@ final class ManageCandidateListTest: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func test_AddCandidatesWithEmptySearch() {
-        var sut: ListViewModel = ListViewModel()
-        
+    func test_AddCandidatesWithEmptySearch() {        
         sut.searchText = ""
         let expectation = self.expectation(description: "Debounced search should update searchResult")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

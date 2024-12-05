@@ -19,17 +19,3 @@ enum FavoritEndPoint {
         return request
     }
 }
-
-/*
- 
- struct FavoritRequestBody: Encodable {
-     let isAdmin: Bool
- }
- 
- 
- // essayons de passer la condition isAdmin sous forme de json
- let requestBody = FavoritRequestBody(isAdmin: isAdmin)
- let data = try JSONEncoder().encode(requestBody)
- request.addValue("application/json", forHTTPHeaderField: "Content-Type")
- request.httpBody = data
- */

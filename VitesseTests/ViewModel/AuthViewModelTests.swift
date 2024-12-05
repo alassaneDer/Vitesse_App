@@ -103,6 +103,43 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertEqual(callbackCallCount, 1)
     }
     
+    // MARK: showtemporary toast func tests
+    
+    func testShowTemporaryToast_mustDisplayMessage_untilTheDelayCompleted() {
+
+        var sut: AuthViewModel = AuthViewModel({})
+        let expectation = self.expectation(description: "Toast message should be cleared after delay")
+        
+        sut.authenticationMessage = "Hello, World!"
+
+        sut.showTemporaryToast()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.1) {
+                   XCTAssertEqual(sut.authenticationMessage, "Hello, World!", "The message should be cleared only after the delay")
+            expectation.fulfill()
+            }
+        
+        waitForExpectations(timeout: 6, handler: nil)
+
+    }
+    
+    func testShowTemporaryToast_mustClearMessage_ifTheDelayCompleted() {
+
+        var sut: AuthViewModel = AuthViewModel({})
+        let expectation = self.expectation(description: "Toast message should be cleared after delay")
+        
+        sut.authenticationMessage = "Hello, World!"
+
+        sut.showTemporaryToast()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.1) {
+                   // THEN: Vérifier que le message est bien vidé
+                   XCTAssertEqual(sut.authenticationMessage, "", "The message should be cleared after the delay")
+            expectation.fulfill()
+            }
+        
+        waitForExpectations(timeout: 6, handler: nil)
+
+    }
 
     
     // MARK: helpers

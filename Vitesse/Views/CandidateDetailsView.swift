@@ -132,6 +132,11 @@ struct CandidateDetailsView: View {
                 
             }
         })
+        .onAppear {
+            Task {
+                await viewModel.updateDetailsOnMainThread(for: candidatID)
+            }
+        }
     }
 }
 

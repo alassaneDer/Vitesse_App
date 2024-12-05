@@ -29,7 +29,6 @@ final class LoadDetailsTest: XCTestCase {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // simule echec de la récupération du token
         store.completeRetrieval(with: anyNSError())
         
         do {
@@ -46,7 +45,6 @@ final class LoadDetailsTest: XCTestCase {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // simule echec de la récupération du token
         store.completeRetrieval(with: anyData())
         
         do {
@@ -60,21 +58,16 @@ final class LoadDetailsTest: XCTestCase {
     }
     
     func testLoadDetailsSuccess() async throws {
-        // Prepare a successful result with fake data and HTTP response
         let (candidateItem, json) = makeDetails_Update_Favorite_Item()
         let data = makeItemsJson(json)
         let result: Result<(Data, HTTPURLResponse), Error> = .success((data, anyHTTPURLResponse(statusCode: 200)))
         
-        // Create the system under test (sut) using makeLoadDetailsSUT
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // token
         store.completeRetrieval(with: anyData())
         
-        // Call the method to test
         let candidate = try await sut.loadDetails(by: "an id")
         
-        // Verify the result
         XCTAssertEqual(candidate.phone, candidateItem.phone)
         XCTAssertEqual(candidate.note, candidateItem.note)
         XCTAssertEqual(candidate.firstName, candidateItem.firstName)
@@ -88,7 +81,6 @@ final class LoadDetailsTest: XCTestCase {
         let result: Result<(Data, HTTPURLResponse), Error> = .failure(anyNSError())
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // simule echec de la récupération du token
         store.completeRetrieval(with: anyData())
         
         await sut.updateDetailsOnMainThread(for: "an id")
@@ -101,21 +93,16 @@ final class LoadDetailsTest: XCTestCase {
     }
     
     func test_updateDetailsOnMainThreadSucceedIfLoadsDetailsRequestSucceed() async throws {
-        // Prepare a successful result with fake data and HTTP response
         let (candidateItem, json) = makeDetails_Update_Favorite_Item()
         let data = makeItemsJson(json)
         let result: Result<(Data, HTTPURLResponse), Error> = .success((data, anyHTTPURLResponse(statusCode: 200)))
         
-        // Create the system under test (sut) using makeLoadDetailsSUT
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // token
         store.completeRetrieval(with: anyData())
         
-        // Call the method to test
         await sut.updateDetailsOnMainThread(for: "an id")
         
-        // Verify the result
         XCTAssertEqual(sut.phone, candidateItem.phone)
         XCTAssertEqual(sut.note, candidateItem.note)
         XCTAssertEqual(sut.firstName, candidateItem.firstName)
@@ -126,15 +113,12 @@ final class LoadDetailsTest: XCTestCase {
     // MARK: showtemporary toast func tests
     
     func testShowTemporaryToast_mustDisplayMessage_untilTheDelayCompleted() {
-        // Prepare a successful result with fake data and HTTP response
-        let (candidateItem, json) = makeDetails_Update_Favorite_Item()
+        let (_, json) = makeDetails_Update_Favorite_Item()
         let data = makeItemsJson(json)
         let result: Result<(Data, HTTPURLResponse), Error> = .success((data, anyHTTPURLResponse(statusCode: 200)))
         
-        // Create the system under test (sut) using makeLoadDetailsSUT
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // token
         store.completeRetrieval(with: anyData())
         
         sut.message = "Hello, World!"
@@ -144,7 +128,6 @@ final class LoadDetailsTest: XCTestCase {
         sut.showTemporaryToast()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.1) {
-                   // THEN: Vérifier que le message est bien vidé
                    XCTAssertEqual(sut.message, "Hello, World!", "The message should be cleared only after the delay")
             expectation.fulfill()
             }
@@ -154,15 +137,12 @@ final class LoadDetailsTest: XCTestCase {
     }
     
     func testShowTemporaryToast_mustClearMessage_ifTheDelayCompleted() {
-        // Prepare a successful result with fake data and HTTP response
-        let (candidateItem, json) = makeDetails_Update_Favorite_Item()
+        let (_, json) = makeDetails_Update_Favorite_Item()
         let data = makeItemsJson(json)
         let result: Result<(Data, HTTPURLResponse), Error> = .success((data, anyHTTPURLResponse(statusCode: 200)))
         
-        // Create the system under test (sut) using makeLoadDetailsSUT
         let (sut, _, store) = makeLoadDetailsSUT(result: result)
         
-        // token
         store.completeRetrieval(with: anyData())
         
         sut.message = "Hello, World!"
@@ -172,7 +152,6 @@ final class LoadDetailsTest: XCTestCase {
         sut.showTemporaryToast()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.1) {
-                   // THEN: Vérifier que le message est bien vidé
                    XCTAssertEqual(sut.message, "", "The message should be cleared after the delay")
             expectation.fulfill()
             }
@@ -180,6 +159,7 @@ final class LoadDetailsTest: XCTestCase {
         waitForExpectations(timeout: 6, handler: nil)
 
     }
+    
     //MARK: HELPERS
     
     private func makeLoadDetailsSUT(result: Result<(Data, HTTPURLResponse), Error>) -> (detailSut: DetailsViewModel, client: HTTPClientStub, store: TokenStoreSpy) {

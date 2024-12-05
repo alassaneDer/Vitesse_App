@@ -58,7 +58,6 @@ final class DetailsViewModel: ObservableObject {
             
         } catch {
             message = "Sorry can't load candidate details, please try later."
-            print("Error: \(error.localizedDescription)")
         }
     }
     
@@ -99,6 +98,8 @@ final class DetailsViewModel: ObservableObject {
             let request = try FavoritEndPoint.request(token: token, candidateID: candidatID)
             
             let asFavoritSetted = try await candidatesLoader.markCandidateAsFavorite(from: request)
+            
+            self.isFavorite = asFavoritSetted.isFavorite
             
             return asFavoritSetted
             

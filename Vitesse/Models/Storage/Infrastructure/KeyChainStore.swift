@@ -6,20 +6,10 @@
 //
 
 import Foundation
- /*
- La classe KeychainStore fournit une interface pour
-    stocker,
-    récupérer et
-    supprimer
- des données dans le Keychain d'iOS, en se conformant au protocole TokenStore
- 
- */
-
-
 
 final class KeychainStore: TokenStore {
     
-    private let key: String // stocke la clé d'accès utilisée pour identifier les données dans le Keychain.
+    private let key: String
     
     init(key: String = "com.vitesse.authtoken") {
         self.key = key
@@ -34,14 +24,12 @@ final class KeychainStore: TokenStore {
     
     // MARK: insertion des données dans le Keychain
     func insert(_ data: Data) throws {
-        // création du dictionnaire query
         let query = [
-            kSecClass: kSecClassGenericPassword, // spécifie object à stocker est un mot de pass générique
-            kSecAttrAccount: key as Any,     // la clé d'identification
-            kSecValueData: data         // les données
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key as Any,
+            kSecValueData: data
         ] as CFDictionary
         
-        // ajout de query dans le Keychain
         guard SecItemAdd(query, nil) == noErr else {
             throw Error.insertFailed
         }
@@ -50,10 +38,10 @@ final class KeychainStore: TokenStore {
     // MARK: récupération des données
     func retrieve() throws -> Data {
         let query = [
-            kSecClass: kSecClassGenericPassword,    //mdp générique
-            kSecAttrAccount: key,   // associé à une clé
-            kSecReturnData: kCFBooleanTrue as Any,  // retourner les données
-            kSecMatchLimit: kSecMatchLimitOne   // limitation de la recherche à un élément
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: key,
+            kSecReturnData: kCFBooleanTrue as Any,
+            kSecMatchLimit: kSecMatchLimitOne
         ] as CFDictionary
         
         var result: AnyObject?
@@ -65,15 +53,7 @@ final class KeychainStore: TokenStore {
         }
         return data
     }
-    
-    /*
-     
-     Le dictionnaire query spécifie que l'on cherche à récupérer un mot de passe générique associé à la clé,
-     avec la demande de renvoyer les données correspondantes (kSecReturnData) et
-     de limiter la recherche à un seul élément (kSecMatchLimitOne).
-     
-     */
-    
+
     // MARK: supression du keychain
     func delete() throws {
         if existsInKeychain() {
@@ -92,15 +72,14 @@ final class KeychainStore: TokenStore {
     // MARK: vérification existance données dnas le keychain
     private func existsInKeychain() -> Bool {
             let query = [
-                kSecClass: kSecClassGenericPassword,    //mdp générique
-                kSecAttrAccount: key,   // associé à une clé
-                kSecReturnData: kCFBooleanTrue as Any,  // retourner les données
-                kSecMatchLimit: kSecMatchLimitOne   // limitation de la recherche à un élément
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrAccount: key,
+                kSecReturnData: kCFBooleanTrue as Any,
+                kSecMatchLimit: kSecMatchLimitOne
             ] as CFDictionary
             
             
-            let status = SecItemCopyMatching(query, nil)    // effectue la recherche dans le Keychain
-        
+            let status = SecItemCopyMatching(query, nil)        
             return status == noErr
     }
     

@@ -17,7 +17,7 @@ final class RegisterViewModel: ObservableObject {
     
     
     @Published var registerMessage: String = ""
-    private let toastUtility: ToastUtility  // instance de ToastUtility
+    private let toastUtility: ToastUtility
     
     private let registor: Registor
     
@@ -43,7 +43,6 @@ final class RegisterViewModel: ObservableObject {
                 registerMessage = "Registration succesful!"
             } catch {
                 registerMessage = "Sorry! Registration failed. Please try again."
-                print("Register failed : \(error)")
             }
         }
     }
